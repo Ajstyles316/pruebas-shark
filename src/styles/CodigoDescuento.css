@@ -1,0 +1,17 @@
+.input-codigo {
+  padding: 10px;
+  margin: 10px 0;
+  width: 80%;
+}
+
+.btn-aplicar {
+  background-color: #ffcc00;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.btn-aplicar:hover {
+  background-color: #ffdd33;
+}

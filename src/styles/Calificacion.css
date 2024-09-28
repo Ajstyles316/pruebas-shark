@@ -1,0 +1,29 @@
+.calificacion {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .estrella {
+    font-size: 30px;
+    cursor: pointer;
+  }
+  
+  .estrella.llena {
+    color: gold;
+  }
+  
+  .estrella.vacia {
+    color: gray;
+  }
+  
+  button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
