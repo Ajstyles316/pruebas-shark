@@ -1,0 +1,78 @@
+body {
+    background-color:rgb(214, 205, 205);
+    margin: 0;
+      display: flex;
+      place-items: center;
+      min-width: 320px;
+      min-height: 100vh;
+      align-content: space-around;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      color: #ffcc00;
+  }
+  .Transacciones {
+      border-color: #aa8f21;
+      border-color: #333;
+      justify-content: center;
+      flex-wrap: wrap;
+  }
+  
+  /* Estilos para los elementos del carrito */
+  .cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #b3b37b;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+  }
+  
+  /* Estilos para botones */
+  .btn-confirmar,
+  .btn-aplicar,
+  .btn-finalizar {
+    background-color: #ffcc00;
+    border: none;
+    padding: 10px 15px;
+    margin: 10px;
+    cursor: pointer;
+    border-radius:100000px;
+    transition: background-color 0.3s;
+  }
+  
+  /* Hover para botones */
+  .btn-confirmar:hover,
+  .btn-aplicar:hover,
+  .btn-finalizar:hover {
+    background-color: #ffdd33;
+  }
+  
+  /* Estilos para inputs de texto */
+  input[type="text"] {
+    padding: 10px;
+    margin: 10px 0;
+    border: 2px solid;
+    border-radius: 5px;
+    width: 90%;
+    background-color: antiquewhite;
+    color: #333;
+  }
+  
+  /* Estilo para el título */
+  h2 {
+    color: #0a0a0a;
+  }
+  p{
+    color: #0a0a0a;
+  }
+  /* Estilos para mensajes */
+  .mensaje {
+    margin: 10px 0;
+    color: green;
+    font-weight: bold;
+  }
+  
