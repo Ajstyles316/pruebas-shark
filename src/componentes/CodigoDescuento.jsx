@@ -1,16 +1,11 @@
-import { useState } from "react";
-import PropTypes from "prop-types";
-
-const Descuento = ({ navegar }) => {
+import { useState } from 'react';
+import PropTypes from 'prop-types';
+import '../styles/CodigoDescuento.css'
+const Descuento = ({ aplicarDescuento }) => {
   const [codigo, setCodigo] = useState("");
 
-  const aplicarDescuento = () => {
-    if (codigo === "VALIDO") {
-      alert("Descuento aplicado con éxito");
-      navegar("calificacion");
-    } else {
-      alert("Código de descuento inválido");
-    }
+  const manejarAplicarDescuento = () => {
+    aplicarDescuento(codigo);
   };
 
   return (
@@ -22,16 +17,15 @@ const Descuento = ({ navegar }) => {
         value={codigo}
         onChange={(e) => setCodigo(e.target.value)}
       />
-      <button className="btn-aplicar" onClick={aplicarDescuento}>
+      <button className="btn-aplicar" onClick={manejarAplicarDescuento}>
         Aplicar Descuento
       </button>
     </div>
   );
 };
 
-// Validación de props
 Descuento.propTypes = {
-  navegar: PropTypes.func.isRequired,
+  aplicarDescuento: PropTypes.func.isRequired,
 };
 
 export default Descuento;

@@ -1,22 +1,21 @@
 body {
+  background-color:rgb(214, 205, 205);
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  align-content: stretch;
-  justify-content: space-around;
-}
-.transacciones {
-  display: flex;
-    flex-direction: row-reverse;
-    flex-wrap: wrap;
+    display: flex;
+    place-items: center;
+    min-width: 320px;
+    min-height: 100vh;
     align-content: space-around;
-    justify-content: space-evenly;
-    align-items: stretch;
-    
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    color: #ffcc00;
+}
+.Transacciones {
+    border-color: #aa8f21;
+    border-color: #333;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 /* Estilos para los elementos del carrito */
@@ -24,7 +23,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #868649;
+  background-color: #b3b37b;
   padding: 10px;
   margin: 10px 0;
   border-radius: 5px;
@@ -33,9 +32,7 @@ body {
 }
 
 /* Estilos para botones */
-.btn-agregar,
 .btn-confirmar,
-.btn-descuento,
 .btn-aplicar,
 .btn-finalizar {
   background-color: #ffcc00;
@@ -43,14 +40,12 @@ body {
   padding: 10px 15px;
   margin: 10px;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius:100000px;
   transition: background-color 0.3s;
 }
 
 /* Hover para botones */
-.btn-agregar:hover,
 .btn-confirmar:hover,
-.btn-descuento:hover,
 .btn-aplicar:hover,
 .btn-finalizar:hover {
   background-color: #ffdd33;
@@ -60,16 +55,20 @@ body {
 input[type="text"] {
   padding: 10px;
   margin: 10px 0;
-  border: 2px solid #ccc;
+  border: 2px solid;
   border-radius: 5px;
-  width: 100%;
+  width: 90%;
+  background-color: antiquewhite;
+  color: #333;
 }
 
 /* Estilo para el título */
 h2 {
-  color: #333;
+  color: #0a0a0a;
 }
-
+p{
+  color: #0a0a0a;
+}
 /* Estilos para mensajes */
 .mensaje {
   margin: 10px 0;

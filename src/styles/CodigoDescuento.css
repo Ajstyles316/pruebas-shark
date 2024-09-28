@@ -1,9 +1,11 @@
 .input-codigo {
   padding: 10px;
   margin: 10px 0;
-  width: 80%;
+  width: 90%;
 }
-
+.input-text{
+  width: 90%;
+}
 .btn-aplicar {
   background-color: #ffcc00;
   border: none;

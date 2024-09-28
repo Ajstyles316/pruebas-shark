@@ -1,29 +1,49 @@
 .calificacion {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-  
-  .estrella {
-    font-size: 30px;
-    cursor: pointer;
-  }
-  
-  .estrella.llena {
-    color: gold;
-  }
-  
-  .estrella.vacia {
-    color: gray;
-  }
-  
-  button {
-    margin-top: 10px;
-    padding: 8px 16px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #b3b37b;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  margin: 50px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  margin-bottom: 15px;
+}
+
+.estrellas {
+  display: flex;
+  justify-content: center;
+  margin: 15px 0;
+}
+
+.estrella {
+  font-size: 30px;
+  cursor: pointer;
+  margin: 0 5px;
+  transition: color 0.3s ease;
+}
+
+.estrella.llena {
+  color: gold;
+}
+
+.estrella.vacia {
+  color: #ccc;
+}
+
+.btn-enviar {
+  background-color: #ffcc00;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.btn-enviar:hover {
+  background-color: #ffdd33;
+}

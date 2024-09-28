@@ -1,13 +1,15 @@
-import { useState} from 'react';
-import { db } from '../services/firebaseConfig';
-import { collection, addDoc } from 'firebase/firestore';
-import '../styles/SeleccionProducto.css'
-const ProductSelection = () => {
+import { useState } from 'react';
+import PropTypes from 'prop-types';
+import Mesa from '../assets/eventos-sociales-1200x900.jpg'
+import Silla from '../assets/casa-infinito-1928.jpeg'
+import '../styles/SeleccionProducto.css';
+
+const SeleccionProducto = ({ agregarAlCarrito }) => {
   const [selectedProduct, setSelectedProduct] = useState(0);
 
   const productos = [
-    { id: 1, name: 'Mesa de Banquete', precio: 50, imagen: 'url-de-la-imagen-1' },
-    { id: 2, name: 'Decoración Floral', precio: 60, imagen: 'url-de-la-imagen-2' }
+    { id: 1, name: 'Mesa de Banquete', precio: 50, imagen: Mesa },
+    { id: 2, name: 'Decoración Floral', precio: 60, imagen: Silla },
   ];
 
   const cambiarProducto = (direccion) => {
@@ -18,18 +20,8 @@ const ProductSelection = () => {
     }
   };
 
-  const agregarAlCarrito = async () => {
-    try {
-      await addDoc(collection(db, 'carrito'), {
-        productoId: productos[selectedProduct].id,
-        nombre: productos[selectedProduct].name,
-        precio: productos[selectedProduct].precio,
-        imagen: productos[selectedProduct].imagen
-      });
-      alert('Producto agregado al carrito');
-    } catch (error) {
-      console.error("Error al agregar al carrito: ", error);
-    }
+  const agregarProducto = () => {
+    agregarAlCarrito(productos[selectedProduct]);
   };
 
   return (
@@ -40,14 +32,15 @@ const ProductSelection = () => {
         <img src={productos[selectedProduct].imagen} alt={productos[selectedProduct].name} />
         <button onClick={() => cambiarProducto('next')} className="arrow-btn">→</button>
       </div>
-      <div className="checkbox">
-        <input type="checkbox" id="confirmado" />
-        <label htmlFor="confirmado">Colocar en confirmado</label>
-      </div>
-      <button className="btn-agregar" onClick={agregarAlCarrito}>Agregar al Carrito</button>
-      <button className="btn-cancelar">Cancelar</button>
+      <button className="btn-agregar" onClick={agregarProducto}>Agregar al Carrito
+          <img src="https://cdn-icons-png.flaticon.com/128/2098/2098566.png" alt="Carrito" />
+      </button>
     </div>
   );
 };
 
-export default ProductSelection;
+SeleccionProducto.propTypes = {
+  agregarAlCarrito: PropTypes.func.isRequired,
+};
+
+export default SeleccionProducto;

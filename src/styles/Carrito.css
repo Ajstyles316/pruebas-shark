@@ -1,38 +1,131 @@
-.cart-item {
+/* Contenedor principal del carrito */
+.carrito-container {
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Título del carrito */
+.carrito-titulo {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Elemento del carrito individual */
+.carrito-item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin: 10px 0;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.cart-item img {
+/* Imagen del producto en el carrito */
+.carrito-imagen {
   width: 100px;
-  height: 80px;
+  height: 100px;
+  border-radius: 5px;
   object-fit: cover;
+  margin-right: 15px;
 }
 
-.btn-eliminar {
-  background-color: #ff3333;
-  color: white;
+/* Nombre y precio del producto */
+.carrito-item p {
+  margin: 0;
+  font-size: 16px;
+}
+
+.carrito-precio {
+  font-weight: bold;
+  color: #333;
+}
+
+/* Botones de acción en el carrito */
+.carrito-botones {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.carrito-botones button {
+  padding: 10px;
+  font-size: 14px;
   border: none;
-  padding: 8px 12px;
-  cursor: pointer;
   border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Botón de eliminar */
+.btn-eliminar {
+  background-color: #ff4d4d;
+  color: white;
 }
 
 .btn-eliminar:hover {
-  background-color: #ff6666;
+  background-color: #ff3333;
 }
 
-.btn-confirmar, .btn-descuento {
+/* Botón para agregar un nuevo producto */
+.btn-agregar {
+  background-color: #4caf50;
+  color: white;
+}
+
+.btn-agregar:hover {
+  background-color: #45a049;
+}
+
+/* Botón de seleccionar y confirmar */
+.btn-seleccionar, .btn-confirmar {
   background-color: #ffcc00;
-  border: none;
-  padding: 10px;
-  margin: 10px;
-  cursor: pointer;
-  border-radius: 5px;
+  color: #333;
 }
 
-.btn-confirmar:hover, .btn-descuento:hover {
-  background-color: #ffdd33;
+.btn-seleccionar:hover, .btn-confirmar:hover {
+  background-color: #ffb300;
+}
+
+/* Botón de descuento */
+.btn-descuento {
+  background-color: #4c6ef5;
+  color: white;
+}
+
+.btn-descuento:hover {
+  background-color: #3b5bdb;
+}
+
+/* Contenedor final de botones */
+.carrito-botones-final {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+/* Checkbox para confirmación */
+.checkbox {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.checkbox label {
+  margin-left: 8px;
+  font-size: 14px;
+  color: #555;
+}
+
+.checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
 }

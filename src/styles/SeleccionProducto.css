@@ -1,10 +1,10 @@
 .transacciones {
-  background-color: #e0e0e0;
   border-radius: 10px;
   padding: 20px;
   width: 350px;
   text-align: center;
   color: black;
+  background-color: #b3b37b;
 }
 
 .product-selection {
@@ -19,6 +19,7 @@
   border: none;
   font-size: 24px;
   cursor: pointer;
+  color: black;
 }
 
 img {
@@ -44,7 +45,11 @@ img {
 .btn-agregar:hover {
   background-color: #ffdd33;
 }
-
+.btn-agregar img{
+  margin-left: 10px; /* Espacio entre el texto y el ícono */
+  width: 17px;
+  height: 17px;
+}
 .btn-cancelar {
   background-color: white;
   border: 1px solid #ccc;

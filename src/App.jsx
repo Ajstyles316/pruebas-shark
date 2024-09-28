@@ -1,66 +1,74 @@
-
 import { useState } from 'react';
-// Componentes individuales
 import SeleccionProducto from './componentes/SeleccionProducto';
 import Carrito from './componentes/Carrito';
 import Descuento from './componentes/CodigoDescuento';
 import Calificacion from './componentes/Calificacion';
 import Gracias from './componentes/Gracias';
+import './App.css'
+const Transacciones = () => {
+  const [productosCarrito, setProductosCarrito] = useState([]);
+  const [vistaActual, setVistaActual] = useState('seleccion'); // 'seleccion', 'carrito', 'descuento', 'calificacion', 'gracias'
 
-const App = () => {
-  const [step, setStep] = useState('seleccion'); // Estado para controlar la navegación
-  const [cartItems, setCartItems] = useState([]);
-  const [calificacion, setCalificacion] = useState(0); // Calificación del usuario
-  const [setDescuentoAplicado] = useState(false);
-
-  // Función para agregar productos al carrito
   const agregarAlCarrito = (producto) => {
-    setCartItems([...cartItems, producto]);
-    setStep('carrito'); // Navegar al carrito
+    setProductosCarrito((prev) => [...prev, producto]);
+    setVistaActual('carrito'); // Cambia a la vista del carrito
   };
 
-  // Función para aplicar el descuento
-  const aplicarDescuento = (codigo) => {
-    if (codigo === 'DESCUENTO10') {
-      setDescuentoAplicado(true);
+  const eliminarProducto = (productoId) => {
+    setProductosCarrito((prev) => prev.filter((p) => p.id !== productoId));
+  };
+
+  const irADescuento = () => {
+    setVistaActual('descuento'); // Cambia a la vista de descuento
+  };
+
+  const irACalificacion = () => {
+    setVistaActual('calificacion'); // Cambia a la vista de calificación
+  };
+
+  const irGracias = () => {
+    setVistaActual('gracias');
+  }
+
+  const volverAInicio = () => {
+    setVistaActual('seleccion'); // Vuelve a la vista de selección de productos
+    setProductosCarrito([]); // Reinicia el carrito si es necesario
+  };
+
+  const mostrarVistaActual = () => {
+    switch (vistaActual) {
+      case 'seleccion':
+        return <SeleccionProducto agregarAlCarrito={agregarAlCarrito} />;
+      case 'carrito':
+        return (
+          <Carrito
+            productos={productosCarrito}
+            eliminarProducto={eliminarProducto}
+            onDescuento={irADescuento}
+            onConfirmar={irACalificacion}
+          />
+        );
+      case 'descuento':
+        return (
+          <Descuento
+            aplicarDescuento={(codigo) => {
+              console.log(`Código aplicado: ${codigo}`);
+              irACalificacion();
+            }}
+          />
+        );
+      case 'calificacion':
+        return <Calificacion finalizarCompra={irGracias} />;
+      case 'gracias':
+        return <Gracias salir={volverAInicio} />;
+      default:
+        return <SeleccionProducto agregarAlCarrito={agregarAlCarrito} />;
     }
-    setStep('calificacion'); // Ir a la sección de calificación
   };
 
-  // Función para finalizar la compra y mostrar agradecimiento
-  const finalizarCompra = () => {
-    setStep('gracias');
-  };
-
-  return (
-    <div className="app-container">
-      {step === 'seleccion' && (
-        <SeleccionProducto agregarAlCarrito={agregarAlCarrito} />
-      )}
-
-      {step === 'carrito' && (
-        <Carrito
-          cartItems={cartItems}
-          onDescuento={() => setStep('descuento')}
-          onConfirmar={() => setStep('calificacion')}
-        />
-      )}
-
-      {step === 'descuento' && (
-        <Descuento aplicarDescuento={aplicarDescuento} />
-      )}
-
-      {step === 'calificacion' && (
-        <Calificacion
-          onFinalizar={finalizarCompra}
-          calificacion={calificacion}
-          setCalificacion={setCalificacion}
-        />
-      )}
-
-      {step === 'gracias' && <Gracias />}
-    </div>
-  );
+  return <div className="Transacciones">
+    <h1>Transacciones</h1>
+    {mostrarVistaActual()}</div>;
 };
 
-export default App;
+export default Transacciones;
