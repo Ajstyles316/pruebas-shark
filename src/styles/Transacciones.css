@@ -1,6 +1,6 @@
 body {
-    background-color:rgb(214, 205, 205);
-    margin: 0;
+    /*background-color:rgb(250, 249, 249);*/
+      margin: 0;
       display: flex;
       place-items: center;
       min-width: 320px;
@@ -11,8 +11,11 @@ body {
       align-items: center;
       color: #ffcc00;
   }
+  .Transacciones h1{
+    place-items: center;
+  }
   .Transacciones {
-      border-color: #aa8f21;
+      border-color: #f8d9c4;
       border-color: #333;
       justify-content: center;
       flex-wrap: wrap;
@@ -23,7 +26,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #b3b37b;
+    background-color: #f1ba96;
     padding: 10px;
     margin: 10px 0;
     border-radius: 5px;

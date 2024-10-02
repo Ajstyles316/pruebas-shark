@@ -17,3 +17,28 @@
 .btn-aplicar:hover {
   background-color: #ffdd33;
 }
+.transacciones {
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn-generar {
+  background-color: #4285f4; /* Azul */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.3s;
+}
+
+.btn-generar:hover {
+  background-color: #357ae8; /* Azul más oscuro */
+}
+
+.codigo-generado {
+  margin-top: 20px;
+}

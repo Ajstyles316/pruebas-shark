@@ -5,7 +5,7 @@
   padding: 20px;
   max-width: 600px;
   margin: 0 auto;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Título del carrito */
@@ -21,11 +21,13 @@
 .carrito-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   margin-bottom: 20px;
-  padding: 10px;
+  padding: 20px;
   background-color: #ffffff;
   border-radius: 8px;
+  width: 300px;
+  height: 200px;
+  flex-direction: column;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -45,8 +47,10 @@
 }
 
 .carrito-precio {
+  font-size: 1.1rem; /* Tamaño de la letra */
   font-weight: bold;
-  color: #333;
+  color: #000;
+  margin-right: 10px;
 }
 
 /* Botones de acción en el carrito */
@@ -67,8 +71,14 @@
 
 /* Botón de eliminar */
 .btn-eliminar {
-  background-color: #ff4d4d;
-  color: white;
+  background-color: #ff5c5c; /* Rojo más suave */
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .btn-eliminar:hover {
@@ -110,22 +120,4 @@
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
-}
-
-/* Checkbox para confirmación */
-.checkbox {
-  margin-top: 10px;
-  display: flex;
-  align-items: center;
-}
-
-.checkbox label {
-  margin-left: 8px;
-  font-size: 14px;
-  color: #555;
-}
-
-.checkbox input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
 }

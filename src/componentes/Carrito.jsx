@@ -1,60 +1,100 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { agregarProductoAlCarrito, obtenerProductosDelCarrito, eliminarProductoDelCarrito } from '../services/firebaseFunctions';
+import { obtenerProductosDelCarrito, eliminarProductoDelCarrito, agregarProductoAlCarrito, actualizarProductoEnCarrito } from '../services/firebaseFunctions';
 import '../styles/Carrito.css';
-// Generar un precio aleatorio entre 50 y 500
-const precioAleatorio = Math.floor(Math.random() * 450) + 50;
 
-// Generar una URL de imagen aleatoria de Lorem Picsum (200x200 es el tamaño de la imagen)
-const urlImagenAleatoria = `https://source.unsplash.com/random/200x200/?social-event`;
 const Carrito = ({ onDescuento, onConfirmar }) => {
-  const [productos, setProductos] = useState([]);
+  const [productosCarrito, setProductosCarrito] = useState([]);
+  const [nuevoProducto, setNuevoProducto] = useState({ name: '', precio: 0, imagen: '' }); // Estado para agregar nuevo producto
+  const [cantidadActualizar, setCantidadActualizar] = useState(1); // Estado para la actualización de cantidad
 
+  // Cargar productos del carrito desde Firebase
   useEffect(() => {
-    const fetchProductos = async () => {
-      const productosDelCarrito = await obtenerProductosDelCarrito();
-      setProductos(productosDelCarrito);
+    const cargarProductosCarrito = async () => {
+      const productos = await obtenerProductosDelCarrito();
+      setProductosCarrito(productos);
     };
-    fetchProductos();
+    cargarProductosCarrito();
   }, []);
-  const handleAddNewProduct = async () => {
-    const newProduct = {
-      precio: precioAleatorio,
-      imagen: urlImagenAleatoria,
-    };
-    await agregarProductoAlCarrito(newProduct);
-    setProductos((prev) => [...prev, newProduct]);
+
+  // Agregar producto al carrito
+  const handleAgregarProducto = async () => {
+    if (nuevoProducto.name && nuevoProducto.precio) {
+      await agregarProductoAlCarrito(nuevoProducto);
+      setProductosCarrito((prev) => [...prev, nuevoProducto]);
+      setNuevoProducto({ name: '', precio: 0, imagen: '' }); // Limpiar el formulario
+    }
   };
-  // Eliminar producto del carrito y actualizar Firebase
+
+  // Actualizar producto en el carrito (actualiza la cantidad)
+  const handleActualizarProducto = async (productoId, nuevosDatos) => {
+    await actualizarProductoEnCarrito(productoId, nuevosDatos);
+    setProductosCarrito((prev) =>
+      prev.map((producto) => (producto.id === productoId ? { ...producto, ...nuevosDatos } : producto))
+    );
+  };
+
+  // Eliminar producto del carrito y actualizar en Firebase
   const handleEliminarProducto = async (productoId) => {
     await eliminarProductoDelCarrito(productoId);
-    setProductos((prev) => prev.filter((p) => p.id !== productoId));
+    setProductosCarrito((prev) => prev.filter((p) => p.id !== productoId));
   };
 
   return (
     <div className="carrito-container">
       <h2 className="carrito-titulo">Carrito de Compras</h2>
-      {productos.length > 0 ? (
-        productos.map((producto) => (
+      {productosCarrito.length > 0 ? (
+        productosCarrito.map((producto) => (
           <div key={producto.id} className="carrito-item">
             <img src={producto.imagen} alt={producto.name} className="carrito-imagen" />
             <p>{producto.name}</p>
             <p className="carrito-precio">Precio: {producto.precio} $</p>
             <div className="carrito-botones">
+              {/* Botón para actualizar cantidad del producto */}
+              <input
+                type="number"
+                value={cantidadActualizar}
+                onChange={(e) => setCantidadActualizar(Number(e.target.value))}
+                className="input-cantidad"
+              />
+              <button
+                onClick={() => handleActualizarProducto(producto.id, { ...producto, cantidad: cantidadActualizar })}
+                className="btn-actualizar"
+              >
+                Actualizar
+              </button>
+
+              {/* Botón para eliminar producto */}
               <button onClick={() => handleEliminarProducto(producto.id)} className="btn-eliminar">
                 Eliminar
               </button>
-              <button onClick={() => handleAddNewProduct(producto.id)} className="btn-agregar">Agregar nuevo producto</button>
             </div>
           </div>
         ))
       ) : (
         <p>El carrito está vacío.</p>
       )}
-      <div className="checkbox">
-        <input type="checkbox" id="confirmado" />
-        <label htmlFor="confirmado">Colocar en confirmado</label>
+
+      {/* Sección para agregar un nuevo producto */}
+      <div className="agregar-producto">
+        <h3>Agregar Nuevo Producto</h3>
+        <input
+          type="text"
+          placeholder="Nombre del producto"
+          value={nuevoProducto.name}
+          onChange={(e) => setNuevoProducto((prev) => ({ ...prev, name: e.target.value }))}
+        />
+        <input
+          type="number"
+          placeholder="Precio"
+          value={nuevoProducto.precio}
+          onChange={(e) => setNuevoProducto((prev) => ({ ...prev, precio: Number(e.target.value) }))}
+        />
+        <button className="btn-agregar" onClick={handleAgregarProducto}>
+          Agregar Producto
+        </button>
       </div>
+
       <div className="carrito-botones-final">
         <button className="btn-descuento" onClick={onDescuento}>Código de Descuento</button>
         <button className="btn-confirmar" onClick={onConfirmar}>Confirmar</button>
