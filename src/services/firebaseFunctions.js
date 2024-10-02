@@ -1,7 +1,11 @@
 import { db } from './firebaseConfig'; // Asegúrate de importar la configuración de Firebase
 import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc } from 'firebase/firestore';
 
-// Leer productos del carrito
+export const obtenerProductos = async () => {
+  const productosSnapshot = await getDocs(collection(db, 'productos')); // Reemplaza 'productos' con tu colección de Firebase
+  const productos = productosSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  return productos;
+};
 export const obtenerProductosDelCarrito = async () => {
   const productosSnapshot = await getDocs(collection(db, 'carrito'));
   const productosList = productosSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));

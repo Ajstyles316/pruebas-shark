@@ -1,11 +1,11 @@
 /* Contenedor principal del carrito */
 .carrito-container {
-  background-color: #f8f8f8;
-  border-radius: 10px;
-  padding: 20px;
-  max-width: 600px;
-  margin: 0 auto;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 400px;
+    padding: 20px;
+    border-radius: 15px; /* Bordes redondeados */
+    background: linear-gradient(to bottom, #ffcc66, #ff9966); /* Degradado */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    margin: auto;
 }
 
 /* Título del carrito */
@@ -26,7 +26,7 @@
   background-color: #ffffff;
   border-radius: 8px;
   width: 300px;
-  height: 200px;
+  height: 250px;
   flex-direction: column;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -120,4 +120,11 @@
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+}
+.agregar-producto h3{
+  color: black;
+}
+
+.btn-actualizar {
+  background-color: darkorchid;
 }

@@ -1,12 +1,33 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { obtenerProductosDelCarrito, eliminarProductoDelCarrito, agregarProductoAlCarrito, actualizarProductoEnCarrito } from '../services/firebaseFunctions';
+import {
+  obtenerProductosDelCarrito,
+  eliminarProductoDelCarrito,
+  agregarProductoAlCarrito,
+  actualizarProductoEnCarrito
+} from '../services/firebaseFunctions';
 import '../styles/Carrito.css';
+import Mesa from '../assets/eventos-sociales-1200x900.jpg';
+import Catering from '../assets/catering.jpeg';
+import Bebidas from '../assets/bebidas.jpg';
+import Entretenimiento from '../assets/entretenimiento.jpg';
+import Mobiliario from '../assets/mobiliario.jpeg';
+import Musica from '../assets/musica.jpg';
 
 const Carrito = ({ onDescuento, onConfirmar }) => {
   const [productosCarrito, setProductosCarrito] = useState([]);
-  const [nuevoProducto, setNuevoProducto] = useState({ name: '', precio: 0, imagen: '' }); // Estado para agregar nuevo producto
-  const [cantidadActualizar, setCantidadActualizar] = useState(1); // Estado para la actualización de cantidad
+  const [cantidadActualizar, setCantidadActualizar] = useState(1);
+  const [productoSeleccionado, setProductoSeleccionado] = useState(0);
+
+  // Definir productos disponibles
+  const productosDisponibles = [
+    { id: 1, name: 'Decoración Floral', precio: 250, imagen: Mesa },
+    { id: 2, name: 'Catering', precio: 460, imagen: Catering },
+    { id: 3, name: 'Bebidas', precio: 40, imagen: Bebidas },
+    { id: 4, name: 'Entretenimiento', precio: 100, imagen: Entretenimiento },
+    { id: 5, name: 'Mobiliario', precio: 200, imagen: Mobiliario },
+    { id: 6, name: 'Música', precio: 100, imagen: Musica }
+  ];
 
   // Cargar productos del carrito desde Firebase
   useEffect(() => {
@@ -19,11 +40,9 @@ const Carrito = ({ onDescuento, onConfirmar }) => {
 
   // Agregar producto al carrito
   const handleAgregarProducto = async () => {
-    if (nuevoProducto.name && nuevoProducto.precio) {
-      await agregarProductoAlCarrito(nuevoProducto);
-      setProductosCarrito((prev) => [...prev, nuevoProducto]);
-      setNuevoProducto({ name: '', precio: 0, imagen: '' }); // Limpiar el formulario
-    }
+    const producto = productosDisponibles[productoSeleccionado];
+    await agregarProductoAlCarrito(producto);
+    setProductosCarrito((prev) => [...prev, producto]);
   };
 
   // Actualizar producto en el carrito (actualiza la cantidad)
@@ -50,7 +69,6 @@ const Carrito = ({ onDescuento, onConfirmar }) => {
             <p>{producto.name}</p>
             <p className="carrito-precio">Precio: {producto.precio} $</p>
             <div className="carrito-botones">
-              {/* Botón para actualizar cantidad del producto */}
               <input
                 type="number"
                 value={cantidadActualizar}
@@ -64,7 +82,6 @@ const Carrito = ({ onDescuento, onConfirmar }) => {
                 Actualizar
               </button>
 
-              {/* Botón para eliminar producto */}
               <button onClick={() => handleEliminarProducto(producto.id)} className="btn-eliminar">
                 Eliminar
               </button>
@@ -75,29 +92,36 @@ const Carrito = ({ onDescuento, onConfirmar }) => {
         <p>El carrito está vacío.</p>
       )}
 
-      {/* Sección para agregar un nuevo producto */}
+      {/* Sección para agregar un nuevo producto con un select box */}
       <div className="agregar-producto">
         <h3>Agregar Nuevo Producto</h3>
-        <input
-          type="text"
-          placeholder="Nombre del producto"
-          value={nuevoProducto.name}
-          onChange={(e) => setNuevoProducto((prev) => ({ ...prev, name: e.target.value }))}
-        />
-        <input
-          type="number"
-          placeholder="Precio"
-          value={nuevoProducto.precio}
-          onChange={(e) => setNuevoProducto((prev) => ({ ...prev, precio: Number(e.target.value) }))}
-        />
+        <select onChange={(e) => setProductoSeleccionado(e.target.value)}>
+          {productosDisponibles.map((producto, index) => (
+            <option key={producto.id} value={index}>
+              {producto.name}
+            </option>
+          ))}
+        </select>
+        <div className="producto-detalles">
+          <img
+            src={productosDisponibles[productoSeleccionado].imagen}
+            alt={productosDisponibles[productoSeleccionado].name}
+            style={{ width: '200px', height: '150px' }}
+          />
+          <p>Precio: {productosDisponibles[productoSeleccionado].precio} $</p>
+        </div>
         <button className="btn-agregar" onClick={handleAgregarProducto}>
           Agregar Producto
         </button>
       </div>
 
       <div className="carrito-botones-final">
-        <button className="btn-descuento" onClick={onDescuento}>Código de Descuento</button>
-        <button className="btn-confirmar" onClick={onConfirmar}>Confirmar</button>
+        <button className="btn-descuento" onClick={onDescuento}>
+          Código de Descuento
+        </button>
+        <button className="btn-confirmar" onClick={onConfirmar}>
+          Confirmar
+        </button>
       </div>
     </div>
   );
@@ -105,7 +129,7 @@ const Carrito = ({ onDescuento, onConfirmar }) => {
 
 Carrito.propTypes = {
   onDescuento: PropTypes.func.isRequired,
-  onConfirmar: PropTypes.func.isRequired,
+  onConfirmar: PropTypes.func.isRequired
 };
 
 export default Carrito;

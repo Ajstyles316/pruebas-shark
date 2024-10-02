@@ -1,10 +1,12 @@
 .transacciones {
-  border-radius: 10px;
+  width: 400px;
   padding: 20px;
-  width: 350px;
-  text-align: center;
+  border-radius: 15px; /* Bordes redondeados */
+  background: linear-gradient(to bottom, #ffcc66, #ff9966); /* Degradado */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  margin: auto;
   color: black;
-  background-color: #f8d9c4;
+  text-align: center;
 }
 
 .product-selection {
@@ -28,10 +30,15 @@ img {
   object-fit: cover;
 }
 
-.checkbox {
-  margin: 10px 0;
+/* Centramos el contenido de contexto */
+.contexto {
+  text-align: center; /* Para centrar el texto */
+  margin-bottom: 20px;
 }
-
+.contexto h3{
+  color: black;
+}
+/* Estilos para el botón */
 .btn-agregar, .btn-cancelar {
   background-color: #ffcc00;
   border: none;
@@ -40,16 +47,21 @@ img {
   cursor: pointer;
   border-radius: 5px;
   color: black;
+  display: block;  /* Para que el botón sea un bloque y fácil de alinear */
+  margin-left: auto;
+  margin-right: auto; /* Centramos el botón */
 }
 
 .btn-agregar:hover {
   background-color: #ffdd33;
 }
-.btn-agregar img{
+
+.btn-agregar img {
   margin-left: 10px; /* Espacio entre el texto y el ícono */
   width: 17px;
   height: 17px;
 }
+
 .btn-cancelar {
   background-color: white;
   border: 1px solid #ccc;

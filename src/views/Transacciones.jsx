@@ -68,7 +68,11 @@ const Transacciones = () => {
 
   return <div className="Transacciones">
     <h1>Transacciones</h1>
-    {mostrarVistaActual()}</div>;
+    {mostrarVistaActual()}
+    
+      
+    </div>;
+    
 };
 
 export default Transacciones;

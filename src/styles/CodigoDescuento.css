@@ -18,10 +18,12 @@
   background-color: #ffdd33;
 }
 .transacciones {
-  border-radius: 10px;
-  padding: 20px;
-  margin: 20px 0;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 400px;
+    padding: 20px;
+    border-radius: 15px; /* Bordes redondeados */
+    background: linear-gradient(to bottom, #ffcc66, #ff9966); /* Degradado */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    margin: auto;
 }
 
 .btn-generar {
