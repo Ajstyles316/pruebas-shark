@@ -1,12 +1,16 @@
 .transacciones {
-  width: 400px;
+  position: absolute;
+  top: 128px; /* Y position */
+  left: 329px; /* X position */
+  width: 380px; /* Width */
+  height: 407px; /* Height */
   padding: 20px;
-  border-radius: 15px; /* Bordes redondeados */
-  background: linear-gradient(to bottom, #ffcc66, #ff9966); /* Degradado */
+  border-radius: 15px; 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
   margin: auto;
   color: black;
   text-align: center;
+  background-color: #D9D9D9;
 }
 
 .product-selection {
@@ -39,13 +43,15 @@ img {
   color: black;
 }
 /* Estilos para el botón */
-.btn-agregar, .btn-cancelar {
-  background-color: #ffcc00;
-  border: none;
+.btn-agregar{
+  background-color: #FCD05F;
+  opacity: 1;
+  width: 209px;
+  height: 63px;
   padding: 10px 20px;
   margin: 10px;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 100px;
   color: black;
   display: block;  /* Para que el botón sea un bloque y fácil de alinear */
   margin-left: auto;

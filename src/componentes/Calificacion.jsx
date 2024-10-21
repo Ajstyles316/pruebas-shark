@@ -1,49 +1,82 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { db } from '../services/firebaseConfig'; // Configuración de Firebase
-import { collection, addDoc } from 'firebase/firestore';
-import '../styles/Calificacion.css'
-const Calificacion = ({ productId, finalizarCompra }) => {
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { guardarCalificacion } from '../services/firebaseFunctions'; // función para guardar en Firebase
+
+const CalificarCompra = ({ carrito, onConfirmar }) => {
   const [calificacion, setCalificacion] = useState(0);
 
-  const handleCalificacion = async () => {
-    try {
-      await addDoc(collection(db, 'calificaciones'), {
-        productId,
-        calificacion,
-        fecha: new Date(),
-      });
-      alert('Calificación enviada');
-    } catch (error) {
-      console.error('Error al enviar la calificación:', error);
+  const handleStarClick = (rating) => {
+    setCalificacion(rating);
+  };
+
+  const generarPDF = () => {
+    const doc = new jsPDF();
+    doc.text("Resumen de la Compra", 20, 10);
+
+    const tablaProductos = carrito.map((producto) => [
+      producto.name,
+      producto.cantidad,
+      producto.precio,
+      producto.cantidad * producto.precio,
+    ]);
+
+    doc.autoTable({
+      head: [['Producto', 'Cantidad', 'Precio Unitario', 'Precio Total']],
+      body: tablaProductos,
+    });
+
+    const precioTotal = carrito.reduce(
+      (total, producto) => total + producto.cantidad * producto.precio,
+      0
+    );
+    doc.text(`Precio Total: $${precioTotal}`, 20, doc.previousAutoTable.finalY + 10);
+
+    doc.save('resumen_compra.pdf');
+  };
+
+  const handleConfirmar = async () => {
+    if (calificacion === 0) {
+      alert("Por favor, califica tu experiencia antes de confirmar.");
+      return;
     }
-    finalizarCompra(); // Vuelve a la selección después de calificar
+
+    // Guardar la calificación en la base de datos
+    await guardarCalificacion(calificacion);
+
+    // Generar el PDF
+    generarPDF();
+
+    // Proceder a la siguiente acción
+    onConfirmar();
   };
 
   return (
-    <div className="calificacion">
-      <h2>Califica tu experiencia</h2>
+    <div className="calificar-container">
+      <h2>Califica tu Experiencia</h2>
       <div className="estrellas">
-        {[...Array(5)].map((star, index) => (
+        {[1, 2, 3, 4, 5].map((star) => (
           <span
-            key={index}
-            onClick={() => setCalificacion(index + 1)}
-            className={index < calificacion ? 'estrella llena' : 'estrella vacia'}
+            key={star}
+            className={star <= calificacion ? 'estrella-seleccionada' : 'estrella'}
+            onClick={() => handleStarClick(star)}
           >
             ★
           </span>
         ))}
       </div>
-      <button onClick={handleCalificacion} className="btn-enviar">
-        Enviar
+      <p>Gracias por tu Compra</p>
+      <button className="btn-confirmar" onClick={handleConfirmar}>
+        Confirmado
       </button>
     </div>
   );
 };
 
-Calificacion.propTypes = {
-  productId: PropTypes.string.isRequired,
-  finalizarCompra: PropTypes.func.isRequired,
+CalificarCompra.propTypes = {
+  carrito: PropTypes.array.isRequired,
+  onConfirmar: PropTypes.func.isRequired,
 };
 
-export default Calificacion;
+export default CalificarCompra;

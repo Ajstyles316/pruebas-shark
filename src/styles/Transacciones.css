@@ -1,82 +1,50 @@
-body {
-    /*background-color:rgb(250, 249, 249);*/
-      margin: 0;
-      display: flex;
-      place-items: center;
-      min-width: 320px;
-      min-height: 100vh;
-      align-content: space-around;
-      flex-direction: column;
-      justify-content: space-around;
-      align-items: center;
-      color: #ffcc00;
-  }
-  .Transacciones h1{
-    place-items: center;
-  }
-  .Transacciones {
-      border-color: #f8d9c4;
-      border-color: #333;
-      justify-content: center;
-      flex-wrap: wrap;
-  }
-  
-  /* Estilos para los elementos del carrito */
-  .cart-item {
+.transacciones-container {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    background-color: #f1ba96;
-    width: 400px;
-    padding: 20px;
-    border-radius: 15px; /* Bordes redondeados */
-    background: linear-gradient(to bottom, #ffcc66, #ff9966); /* Degradado */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    margin: auto;
-  }
-  
-  /* Estilos para botones */
-  .btn-confirmar,
-  .btn-aplicar,
-  .btn-finalizar {
-    background-color: #ffcc00;
-    border: none;
-    padding: 10px 15px;
-    margin: 10px;
-    cursor: pointer;
-    border-radius:100000px;
-    transition: background-color 0.3s;
-  }
-  
-  /* Hover para botones */
-  .btn-confirmar:hover,
-  .btn-aplicar:hover,
-  .btn-finalizar:hover {
-    background-color: #ffdd33;
-  }
-  
-  /* Estilos para inputs de texto */
-  input[type="text"] {
-    padding: 10px;
-    margin: 10px 0;
-    border: 2px solid;
-    border-radius: 5px;
-    width: 90%;
-    background-color: antiquewhite;
+    gap: 20px; /* Espacio entre las secciones */
+}
+
+/* Estilos para el botón de Código de Descuento */
+.codigoDescuento {
+    background-color: #FCD05F;
     color: #333;
-  }
-  
-  /* Estilo para el título */
-  h2 {
-    color: #0a0a0a;
-  }
-  p{
-    color: #0a0a0a;
-  }
-  /* Estilos para mensajes */
-  .mensaje {
-    margin: 10px 0;
-    color: green;
+    border: 2px solid #333;
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-size: 16px;
     font-weight: bold;
-  }
-  
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 70px; /* Separación con la tarjeta de selección */
+    margin-left: 50px;
+    width: 100%; /* Ocupa el ancho de la tarjeta */
+    max-width: 300px; /* Limita el tamaño máximo */
+}
+
+.codigoDescuento img {
+    width: 26px;
+    height: 35px;
+    margin-right: 10px; /* Espaciado entre el icono y el texto */
+}
+
+.codigoDescuento:hover {
+    background-color: #ffd45a;
+}
+
+.codigoDescuento:active {
+    background-color: #f0c000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedor para el carrito */
+.carrito-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%; /* Asegura que el carrito esté alineado al centro */
+}

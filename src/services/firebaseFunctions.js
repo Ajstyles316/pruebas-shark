@@ -1,30 +1,45 @@
-import { db } from './firebaseConfig'; // Asegúrate de importar la configuración de Firebase
-import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc } from 'firebase/firestore';
+import { collection, addDoc, updateDoc, deleteDoc, doc, getDocs } from "firebase/firestore"; 
+import { db } from './firebaseConfig';
 
-export const obtenerProductos = async () => {
-  const productosSnapshot = await getDocs(collection(db, 'productos')); // Reemplaza 'productos' con tu colección de Firebase
-  const productos = productosSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-  return productos;
-};
-export const obtenerProductosDelCarrito = async () => {
-  const productosSnapshot = await getDocs(collection(db, 'carrito'));
-  const productosList = productosSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-  return productosList;
+export const addProductToCart = async (product) => {
+  try {
+    await addDoc(collection(db, "carrito"), product);
+  } catch (error) {
+    console.error("Error adding product: ", error);
+  }
 };
 
-// Agregar un producto al carrito
-export const agregarProductoAlCarrito = async (producto) => {
-  await addDoc(collection(db, 'carrito'), producto);
+export const actualizarProductoEnCarrito = async (productId, data) => {
+  const productRef = doc(db, "carrito", productId);
+  try {
+    await updateDoc(productRef, data);
+  } catch (error) {
+    console.error("Error updating product: ", error);
+  }
 };
 
-// Actualizar un producto en el carrito
-export const actualizarProductoEnCarrito = async (productoId, nuevosDatos) => {
-  const productoRef = doc(db, 'carrito', productoId);
-  await updateDoc(productoRef, nuevosDatos);
-};
-
-// Eliminar un producto del carrito
 export const eliminarProductoDelCarrito = async (productoId) => {
-  const productoRef = doc(db, 'carrito', productoId);
-  await deleteDoc(productoRef);
+  const productRef = doc(db, "carrito", productoId);
+  try {
+    await deleteDoc(productRef);
+    console.log("Producto eliminado correctamente");
+  } catch (error) {
+    console.error("Error eliminando el producto:", error);
+  }
+};
+
+export const obtenerProductosDelCarrito = async () => {
+  const querySnapshot = await getDocs(collection(db, "carrito"));
+  return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+};
+
+export const guardarCalificacion = async (calificacion) => {
+  try {
+    await addDoc(collection(db, "calificaciones"), {
+      calificacion,
+      fecha: new Date(),
+    });
+  } catch (error) {
+    console.error("Error guardando la calificación:", error);
+  }
 };

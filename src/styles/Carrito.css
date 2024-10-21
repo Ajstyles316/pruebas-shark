@@ -1,130 +1,93 @@
-/* Contenedor principal del carrito */
 .carrito-container {
-  width: 400px;
-    padding: 20px;
-    border-radius: 15px; /* Bordes redondeados */
-    background: linear-gradient(to bottom, #ffcc66, #ff9966); /* Degradado */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    margin: auto;
-}
-
-/* Título del carrito */
-.carrito-titulo {
-  font-size: 24px;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #FCD05F;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 128px; /* Y position */
+  left: 800px; /* X position */
   color: #333;
 }
 
-/* Elemento del carrito individual */
+.carrito-titulo {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.carrito-items-container {
+  max-height: 400px; /* Define una altura máxima para el contenedor */
+  overflow-y: auto;  /* Permite el scroll vertical */
+  margin-bottom: 20px;
+  width: 490px;
+}
+
 .carrito-item {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  width: 300px;
-  height: 250px;
-  flex-direction: column;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-/* Imagen del producto en el carrito */
 .carrito-imagen {
-  width: 100px;
-  height: 100px;
-  border-radius: 5px;
+  width: 80px;
+  height: 60px;
   object-fit: cover;
   margin-right: 15px;
-}
-
-/* Nombre y precio del producto */
-.carrito-item p {
-  margin: 0;
-  font-size: 16px;
+  border-radius: 5px;
 }
 
 .carrito-precio {
-  font-size: 1.1rem; /* Tamaño de la letra */
-  font-weight: bold;
-  color: #000;
-  margin-right: 10px;
+  margin-right: auto;
 }
-
-/* Botones de acción en el carrito */
+.carrito-precio input{
+  width: 30px;
+}
 .carrito-botones {
   display: flex;
-  flex-direction: column;
   gap: 10px;
-}
-
-.carrito-botones button {
-  padding: 10px;
-  font-size: 14px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-/* Botón de eliminar */
-.btn-eliminar {
-  background-color: #ff5c5c; /* Rojo más suave */
-  color: #fff;
-  border: none;
-  padding: 8px 12px;
-  font-size: 0.9rem;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.btn-eliminar:hover {
-  background-color: #ff3333;
-}
-
-/* Botón para agregar un nuevo producto */
-.btn-agregar {
-  background-color: #4caf50;
-  color: white;
-}
-
-.btn-agregar:hover {
-  background-color: #45a049;
-}
-
-/* Botón de seleccionar y confirmar */
-.btn-seleccionar, .btn-confirmar {
-  background-color: #ffcc00;
-  color: #333;
-}
-
-.btn-seleccionar:hover, .btn-confirmar:hover {
-  background-color: #ffb300;
-}
-
-/* Botón de descuento */
-.btn-descuento {
-  background-color: #4c6ef5;
-  color: white;
-}
-
-.btn-descuento:hover {
-  background-color: #3b5bdb;
-}
-
-/* Contenedor final de botones */
-.carrito-botones-final {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-.agregar-producto h3{
-  color: black;
+  flex-direction: column;
 }
 
 .btn-actualizar {
-  background-color: darkorchid;
+  background: #3FFA3B;
+  border: none;
+  padding: 5px 10px;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-eliminar {
+  background: #FA3B3B;
+  border: none;
+  padding: 5px 10px;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-aceptar {
+  width: 147px;
+  height: 53.85px;
+  left: 820px;
+  align-items: center;
+  top: 519px;
+  background: #F3C00D;
+  color: #333;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
