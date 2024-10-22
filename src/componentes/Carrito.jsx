@@ -1,10 +1,13 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { DataContext } from '../context/context';
 import '../styles/Carrito.css';
-
+import CalificarCompra from '../componentes/Calificacion';
+import "./carrito2.css";
 const Carrito = ({ onConfirmar }) => {
-  const { cart: [productosCarrito, setCart], total: [total, setTotal] ,discountedTotal, discountCode } = useContext(DataContext);
+  const { cart: [productosCarrito, setCart], total: [total, setTotal], discountedTotal, discountCode } = useContext(DataContext);
+  
+  const [isModalOpen, setModalOpen] = useState(false); 
 
   const handleActualizarProducto = (productoId, cantidad) => {
     if (cantidad < 1) {
@@ -37,7 +40,10 @@ const Carrito = ({ onConfirmar }) => {
       )
     );
     actualizarTotal();
-    console.log("cambbios",productosCarrito)
+  };
+
+  const handleConfirmarCompra = () => {
+    setModalOpen(true); 
   };
 
   return (
@@ -89,9 +95,18 @@ const Carrito = ({ onConfirmar }) => {
           <h3>Total: {total} Bs.</h3>
         )}
       </div>
-      <button className="btn-aceptar" onClick={onConfirmar}>
+      <button className="btn-aceptar" onClick={handleConfirmarCompra}>
         Aceptar
       </button>
+      
+  
+      {isModalOpen && (
+        <div className="modal-overlay"> 
+          <div className="modal-content">
+            <CalificarCompra carrito={productosCarrito} onConfirmar={() => setModalOpen(false)} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

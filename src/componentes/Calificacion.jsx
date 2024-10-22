@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import gracias from '../assets/Icon.png'
+import gracias from '../assets/Icon.png';
 import PropTypes from 'prop-types';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -18,9 +18,9 @@ const CalificarCompra = ({ carrito, onConfirmar }) => {
 
     const tablaProductos = carrito.map((producto) => [
       producto.name,
-      producto.cantidad,
+      producto.quantity,
       producto.precio,
-      producto.cantidad * producto.precio,
+      producto.quantity * producto.precio,
     ]);
 
     doc.autoTable({
@@ -29,10 +29,10 @@ const CalificarCompra = ({ carrito, onConfirmar }) => {
     });
 
     const precioTotal = carrito.reduce(
-      (total, producto) => total + producto.cantidad * producto.precio,
+      (total, producto) => total + producto.quantity * producto.precio,
       0
     );
-    doc.text(`Precio Total: $${precioTotal}`, 20, doc.previousAutoTable.finalY + 10);
+    doc.text(`Precio Total: ${precioTotal} Bs.`, 20, doc.previousAutoTable.finalY + 10);
 
     doc.save('resumen_compra.pdf');
   };
@@ -45,16 +45,14 @@ const CalificarCompra = ({ carrito, onConfirmar }) => {
 
     await guardarCalificacion(calificacion);
     generarPDF();
-    onConfirmar();
+    onConfirmar(); 
   };
 
-  // Estilos en línea
   const styles = {
     container: {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      width: '400px',
       padding: '20px',
       borderRadius: '15px',
       background: 'linear-gradient(to bottom, #d9d9d9)',
@@ -80,6 +78,15 @@ const CalificarCompra = ({ carrito, onConfirmar }) => {
       borderRadius: '5px',
       fontSize: '16px',
     },
+    btnCerrar: {
+      marginTop: '10px',
+      backgroundColor: '#ff5e5e',
+      border: 'none',
+      padding: '10px 20px',
+      cursor: 'pointer',
+      borderRadius: '5px',
+      fontSize: '16px',
+    },
   };
 
   return (
@@ -99,17 +106,21 @@ const CalificarCompra = ({ carrito, onConfirmar }) => {
           </span>
         ))}
       </div>
-      <div className='gracias' alt='jaaja'>
-          <img src={gracias} alt='hola'/>  
+      <div className='gracias'>
+        <img src={gracias} alt='Gracias' />
       </div>
       <p>Gracias por tu Compra</p>
       <button
         style={styles.btnConfirmar}
         onClick={handleConfirmar}
-        onMouseEnter={(e) => (e.target.style.backgroundColor = '#ffdd33')}
-        onMouseLeave={(e) => (e.target.style.backgroundColor = '#ffcc00')}
       >
-        Confirmado
+        Confirmar
+      </button>
+      <button
+        style={styles.btnCerrar}
+        onClick={onConfirmar} 
+      >
+        Cerrar
       </button>
     </div>
   );
