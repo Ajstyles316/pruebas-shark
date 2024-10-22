@@ -18,7 +18,7 @@ const Transacciones = () => {
       {!mostrarCalificacion ? (
         <>
           <SeleccionProducto />
-          <Carrito onConfirmar={handleConfirmarCompra} /> {/* Pasar función onConfirmar */}
+          <Carrito onConfirmar={handleConfirmarCompra} />
         </>
       ) : (
         <Calificacion onConfirmar={() => alert('Calificación confirmada')} />

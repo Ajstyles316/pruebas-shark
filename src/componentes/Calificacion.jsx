@@ -1,8 +1,9 @@
 import { useState } from 'react';
+import gracias from '../assets/Icon.png'
 import PropTypes from 'prop-types';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { guardarCalificacion } from '../services/firebaseFunctions'; // función para guardar en Firebase
+import { guardarCalificacion } from '../services/firebaseFunctions';
 
 const CalificarCompra = ({ carrito, onConfirmar }) => {
   const [calificacion, setCalificacion] = useState(0);
@@ -42,32 +43,72 @@ const CalificarCompra = ({ carrito, onConfirmar }) => {
       return;
     }
 
-    // Guardar la calificación en la base de datos
     await guardarCalificacion(calificacion);
-
-    // Generar el PDF
     generarPDF();
-
-    // Proceder a la siguiente acción
     onConfirmar();
   };
 
+  // Estilos en línea
+  const styles = {
+    container: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      width: '400px',
+      padding: '20px',
+      borderRadius: '15px',
+      background: 'linear-gradient(to bottom, #d9d9d9)',
+      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+      margin: 'auto',
+    },
+    estrellas: {
+      display: 'flex',
+      justifyContent: 'center',
+      margin: '15px 0',
+    },
+    estrella: {
+      fontSize: '30px',
+      cursor: 'pointer',
+      margin: '0 5px',
+      transition: 'color 0.3s ease',
+    },
+    btnConfirmar: {
+      backgroundColor: '#ffcc00',
+      border: 'none',
+      padding: '10px 20px',
+      cursor: 'pointer',
+      borderRadius: '5px',
+      fontSize: '16px',
+    },
+  };
+
   return (
-    <div className="calificar-container">
-      <h2>Califica tu Experiencia</h2>
-      <div className="estrellas">
+    <div style={styles.container}>
+      <h2 style={{ marginBottom: '15px' }}>Califica tu Experiencia</h2>
+      <div style={styles.estrellas}>
         {[1, 2, 3, 4, 5].map((star) => (
           <span
             key={star}
-            className={star <= calificacion ? 'estrella-seleccionada' : 'estrella'}
+            style={{
+              ...styles.estrella,
+              color: star <= calificacion ? 'gold' : '#ccc',
+            }}
             onClick={() => handleStarClick(star)}
           >
             ★
           </span>
         ))}
       </div>
+      <div className='gracias' alt='jaaja'>
+          <img src={gracias} alt='hola'/>  
+      </div>
       <p>Gracias por tu Compra</p>
-      <button className="btn-confirmar" onClick={handleConfirmar}>
+      <button
+        style={styles.btnConfirmar}
+        onClick={handleConfirmar}
+        onMouseEnter={(e) => (e.target.style.backgroundColor = '#ffdd33')}
+        onMouseLeave={(e) => (e.target.style.backgroundColor = '#ffcc00')}
+      >
         Confirmado
       </button>
     </div>
