@@ -4,7 +4,7 @@ import { DataContext } from '../context/context';
 import '../styles/Carrito.css';
 
 const Carrito = ({ onConfirmar }) => {
-  const { cart: [productosCarrito, setCart], total: [total, setTotal] } = useContext(DataContext);
+  const { cart: [productosCarrito, setCart], total: [total, setTotal] ,discountedTotal, discountCode } = useContext(DataContext);
 
   const handleActualizarProducto = (productoId, cantidad) => {
     if (cantidad < 1) {
@@ -37,6 +37,7 @@ const Carrito = ({ onConfirmar }) => {
       )
     );
     actualizarTotal();
+    console.log("cambbios",productosCarrito)
   };
 
   return (
@@ -78,7 +79,15 @@ const Carrito = ({ onConfirmar }) => {
         )}
       </div>
       <div className="carrito-total">
-        <h3>Total: {total} Bs.</h3>
+        {discountCode ? ( 
+          <>
+            <h3>Total Original: {total} Bs.</h3>
+            <h3>Código de Descuento Aplicado: {discountCode}</h3>
+            <h3>Total con Descuento: {discountedTotal} Bs.</h3>
+          </>
+        ) : (
+          <h3>Total: {total} Bs.</h3>
+        )}
       </div>
       <button className="btn-aceptar" onClick={onConfirmar}>
         Aceptar

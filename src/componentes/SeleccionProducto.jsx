@@ -10,16 +10,14 @@ import Musica from '../assets/musica.jpg';
 import '../styles/SeleccionProducto.css';
 import descuento from '../assets/image 16.png';
 import { DataContext } from '../context/context'; 
+import Modal from '../componentes/modal/modal';
 
-const onDescuento = () => {
- 
-};
 
 const SeleccionProducto = () => {
   const [selectedProduct, setSelectedProduct] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   
-  
-  const { cart, addToCart } = useContext(DataContext);
+  const { cart, addToCart,applyDiscount } = useContext(DataContext);
 
   const productos = [
     { id: 1, name: 'Decoración Floral', precio: 250, imagen: Mesa },
@@ -47,7 +45,14 @@ const SeleccionProducto = () => {
     const carritoActualizado = [...cart, productoSeleccionado];
     localStorage.setItem('cartData', JSON.stringify(carritoActualizado));
   };
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
 
+  const handleApplyDiscount = (codigo) => {
+    console.log('Código de descuento aplicado:', codigo);
+    applyDiscount(codigo);
+    handleCloseModal(); 
+    };
   return (
     <div className="transacciones">
       <h2>Selección de Producto</h2>
@@ -65,11 +70,13 @@ const SeleccionProducto = () => {
           Agregar al Carrito
           <img src="https://cdn-icons-png.flaticon.com/128/2098/2098566.png" alt="Carrito" />
         </button>
-        <button className="codigoDescuento" onClick={onDescuento}>
+        <button className="codigoDescuento" onClick={handleOpenModal}>
           <img src={descuento} alt="Ícono de Descuento" />
           Código de Descuento
         </button>
       </div>
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal} onSubmit={handleApplyDiscount} />
+  
     </div>
   );
 };

@@ -13,6 +13,8 @@ export const DataProvider = ({ children }) => {
   const [menu, setMenu] = useState(false);
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
+  const [discountCode, setDiscountCode] = useState(''); 
+  const [discountedTotal, setDiscountedTotal] = useState(0);
 
   const productos = [
     { id: 1, name: 'Decoración Floral', precio: 250, imagen: Mesa },
@@ -52,13 +54,37 @@ export const DataProvider = ({ children }) => {
     setTotal(newTotal);
   }, [cart]);
 
+
+  const applyDiscount = (code) => {
+   
+    const discountData = {
+      'DESC10': 0.10, 
+      'DESC20': 0.20, 
+    };
+    
+    if (discountData[code]) {
+      const discountAmount = total * discountData[code];
+      const newTotal = total - discountAmount;
+      setDiscountedTotal(newTotal);
+      setDiscountCode(code);
+     
+      console.log(`Código de descuento aplicado: ${code}, Nuevo total: ${newTotal}`);
+    } else {
+      alert("Código de descuento inválido");
+    }
+  };
+
+
   const value = useMemo(() => ({
     products,
     menu: [menu, setMenu],
     cart: [cart, setCart],
     addToCart,
     total: [total, setTotal],
-  }), [products, menu, cart, total, addToCart]);
+    discountedTotal, 
+    applyDiscount, 
+    discountCode,
+  }),  [products, menu, cart, total, discountedTotal, applyDiscount, discountCode]);
 
   return (
     <DataContext.Provider value={value}>
