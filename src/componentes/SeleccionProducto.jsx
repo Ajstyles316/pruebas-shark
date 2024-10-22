@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { addProductToCart } from '../services/firebaseFunctions'; // Importa la función de Firebase
+import { addProductToCart } from '../services/firebaseFunctions'; 
 import Mesa from '../assets/eventos-sociales-1200x900.jpg';
 import Catering from '../assets/catering.jpeg';
 import Bebidas from '../assets/bebidas.jpg';
@@ -9,13 +9,17 @@ import Mobi from '../assets/mobiliario.jpeg';
 import Musica from '../assets/musica.jpg';
 import '../styles/SeleccionProducto.css';
 import descuento from '../assets/image 16.png';
+import { DataContext } from '../context/context'; 
 
 const onDescuento = () => {
-  // Implementa la lógica del descuento aquí
+ 
 };
 
-const SeleccionProducto = ({ agregarAlCarrito }) => {
+const SeleccionProducto = () => {
   const [selectedProduct, setSelectedProduct] = useState(0);
+  
+  
+  const { cart, addToCart } = useContext(DataContext);
 
   const productos = [
     { id: 1, name: 'Decoración Floral', precio: 250, imagen: Mesa },
@@ -35,9 +39,13 @@ const SeleccionProducto = ({ agregarAlCarrito }) => {
   };
 
   const agregarProducto = async () => {
-    const productoSeleccionado = { ...productos[selectedProduct], cantidad: 1 }; // Se añade el producto con cantidad 1
-    await addProductToCart(productoSeleccionado); // Añade el producto a Firebase
-    agregarAlCarrito(productoSeleccionado); // Actualiza la UI localmente
+    const productoSeleccionado = { ...productos[selectedProduct], cantidad: 1 }; 
+    console.log("intentamos",productoSeleccionado)
+
+    addToCart(productoSeleccionado.id);
+
+    const carritoActualizado = [...cart, productoSeleccionado];
+    localStorage.setItem('cartData', JSON.stringify(carritoActualizado));
   };
 
   return (
@@ -67,7 +75,7 @@ const SeleccionProducto = ({ agregarAlCarrito }) => {
 };
 
 SeleccionProducto.propTypes = {
-  agregarAlCarrito: PropTypes.func.isRequired
+  agregarAlCarrito: PropTypes.func
 };
 
 export default SeleccionProducto;

@@ -1,44 +1,42 @@
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { obtenerProductosDelCarrito, eliminarProductoDelCarrito, actualizarProductoEnCarrito } from '../services/firebaseFunctions';
+import { DataContext } from '../context/context';
 import '../styles/Carrito.css';
 
 const Carrito = ({ onConfirmar }) => {
-  const [productosCarrito, setProductosCarrito] = useState([]);
+  const { cart: [productosCarrito, setCart], total: [total, setTotal] } = useContext(DataContext);
 
-  useEffect(() => {
-    const cargarProductosCarrito = async () => {
-      const productos = await obtenerProductosDelCarrito();
-      setProductosCarrito(productos);
-    };
-    cargarProductosCarrito();
-  }, []);
-
-  const handleActualizarProducto = async (productoId, cantidad) => {
+  const handleActualizarProducto = (productoId, cantidad) => {
     if (cantidad < 1) {
       alert("La cantidad no puede ser menor que 1");
       return;
     }
-    await actualizarProductoEnCarrito(productoId, { cantidad });
-    setProductosCarrito((prev) =>
-      prev.map((p) => (p.id === productoId ? { ...p, cantidad } : p))
+    setCart((prevCart) =>
+      prevCart.map((producto) =>
+        producto.id === productoId ? { ...producto, quantity: cantidad } : producto
+      )
     );
+    actualizarTotal();
   };
 
-  const handleEliminarProducto = async (productoId) => {
-    try {
-      await eliminarProductoDelCarrito(productoId);
-      setProductosCarrito((prev) => prev.filter((p) => p.id !== productoId));
-    } catch (error) {
-      console.error('Error eliminando el producto:', error);
-    }
+  const handleEliminarProducto = (productoId) => {
+    setCart((prevCart) => prevCart.filter((producto) => producto.id !== productoId));
+    actualizarTotal();
+  };
+
+  const actualizarTotal = () => {
+    const newTotal = productosCarrito.reduce((acc, item) => acc + (item.precio * item.quantity), 0);
+    setTotal(newTotal);
   };
 
   const handleCantidadChange = (e, productoId) => {
     const cantidad = parseInt(e.target.value, 10);
-    setProductosCarrito((prev) =>
-      prev.map((p) => (p.id === productoId ? { ...p, cantidad: isNaN(cantidad) ? 1 : cantidad } : p))
+    setCart((prevCart) =>
+      prevCart.map((producto) =>
+        producto.id === productoId ? { ...producto, quantity: isNaN(cantidad) ? 1 : cantidad } : producto
+      )
     );
+    actualizarTotal();
   };
 
   return (
@@ -54,14 +52,14 @@ const Carrito = ({ onConfirmar }) => {
                 <input
                   type="number"
                   min="1"
-                  value={producto.cantidad}
+                  value={producto.quantity}
                   onChange={(e) => handleCantidadChange(e, producto.id)}
                   className="input-cantidad"
                 />
               </div>
               <div className="carrito-botones">
                 <button
-                  onClick={() => handleActualizarProducto(producto.id, producto.cantidad)}
+                  onClick={() => handleActualizarProducto(producto.id, producto.quantity)}
                   className="btn-actualizar"
                 >
                   Actualizar
@@ -79,6 +77,9 @@ const Carrito = ({ onConfirmar }) => {
           <p>El carrito está vacío.</p>
         )}
       </div>
+      <div className="carrito-total">
+        <h3>Total: {total} Bs.</h3>
+      </div>
       <button className="btn-aceptar" onClick={onConfirmar}>
         Aceptar
       </button>
@@ -87,7 +88,7 @@ const Carrito = ({ onConfirmar }) => {
 };
 
 Carrito.propTypes = {
-  onConfirmar: PropTypes.func.isRequired
+  onConfirmar: PropTypes.func.isRequired,
 };
 
 export default Carrito;

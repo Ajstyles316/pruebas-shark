@@ -3,7 +3,7 @@ import SeleccionProducto from '../componentes/SeleccionProducto';
 import Carrito from '../componentes/Carrito';
 import Calificacion from '../componentes/Calificacion'; // Componente de calificación
 import '../styles/Transacciones.css';
-
+import { DataProvider } from "../context/context";
 const Transacciones = () => {
   const [mostrarCalificacion, setMostrarCalificacion] = useState(false); // Estado para controlar la vista
 
@@ -13,6 +13,7 @@ const Transacciones = () => {
   };
 
   return (
+    <DataProvider>
     <div className='transacciones-container'>
       {!mostrarCalificacion ? (
         <>
@@ -23,6 +24,8 @@ const Transacciones = () => {
         <Calificacion onConfirmar={() => alert('Calificación confirmada')} />
       )}
     </div>
+
+    </DataProvider>
   );
 };
 
