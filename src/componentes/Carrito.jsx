@@ -3,11 +3,15 @@ import PropTypes from 'prop-types';
 import { DataContext } from '../context/context';
 import '../styles/Carrito.css';
 import CalificarCompra from '../componentes/Calificacion';
+
+import SeleccionarMetodoPago from '../componentes/MetodoDePago';
+
 import "./carrito2.css";
-const Carrito = ({ onConfirmar }) => {
+const Carrito = () => {
   const { cart: [productosCarrito, setCart], total: [total, setTotal], discountedTotal, discountCode } = useContext(DataContext);
   
   const [isModalOpen, setModalOpen] = useState(false); 
+  const [isSelectionOpen, setSelectionOpen] = useState(false); 
 
   const handleActualizarProducto = (productoId, cantidad) => {
     if (cantidad < 1) {
@@ -42,13 +46,16 @@ const Carrito = ({ onConfirmar }) => {
     actualizarTotal();
   };
 
-  const handleConfirmarCompra = () => {
-    setModalOpen(true); 
+ 
+  const handleMetodoPago = () => {
+    setSelectionOpen(true); 
+    console.log(isModalOpen)
+    console.log(isSelectionOpen)
   };
 
   return (
     <div className="carrito-container">
-      <h2 className="carrito-titulo">Carrito de Compras</h2>
+      <img src="https://cdn-icons-png.flaticon.com/128/2098/2098566.png" alt="Carrito" />
       <div className="carrito-items-container">
         {productosCarrito.length > 0 ? (
           productosCarrito.map((producto, index) => (
@@ -95,10 +102,16 @@ const Carrito = ({ onConfirmar }) => {
           <h3>Total: {total} Bs.</h3>
         )}
       </div>
-      <button className="btn-aceptar" onClick={handleConfirmarCompra}>
+      <button className="btn-aceptar" onClick={handleMetodoPago}>
         Aceptar
       </button>
-      
+      {isSelectionOpen && (
+        <div className="modal-overlay-medio"> 
+          <div className="modal-content-medio">
+            <SeleccionarMetodoPago carrito={productosCarrito}/>
+          </div>
+        </div>
+      )}
   
       {isModalOpen && (
         <div className="modal-overlay"> 

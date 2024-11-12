@@ -1,6 +1,5 @@
 import { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { addProductToCart } from '../services/firebaseFunctions'; 
 import Mesa from '../assets/eventos-sociales-1200x900.jpg';
 import Catering from '../assets/catering.jpeg';
 import Bebidas from '../assets/bebidas.jpg';
