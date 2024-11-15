@@ -60,6 +60,8 @@ export const DataProvider = ({ children }) => {
     const discountData = {
       'DESC10': 0.10, 
       'DESC20': 0.20, 
+      'DESC50': 0.50, 
+      'DESC70': 0.70,
     };
     
     if (discountData[code]) {

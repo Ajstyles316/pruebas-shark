@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { DataContext } from '../context/context.jsx';
 import PropTypes from 'prop-types';
 import CalificarCompra from '../componentes/Calificacion.jsx';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import '../styles/MetodoDePago.css'
 
 const SeleccionarMetodoPago = ({ carrito, onCerrar }) => {
   const [metodoPago, setMetodoPago] = useState(null);
@@ -11,118 +13,114 @@ const SeleccionarMetodoPago = ({ carrito, onCerrar }) => {
   const [fechaVencimiento, setFechaVencimiento] = useState('');
   const [mostrarCalificacion, setMostrarCalificacion] = useState(false);
   const [mostrarModal, setMostrarModal] = useState(true);
+  const { discountedTotal, discountCode } = useContext(DataContext);
+
+  const generarPDF = () => {
+    const doc = new jsPDF();
+  
+    // Encabezado principal estilizado
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(22);
+    doc.setTextColor(40, 40, 40);
+    doc.text('Resumen de Compra', 105, 15, { align: 'center' });
+  
+    // Línea divisoria
+    doc.setDrawColor(100, 100, 100);
+    doc.setLineWidth(0.5);
+    doc.line(20, 20, 190, 20);
+  
+    // Tabla de productos
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'normal');
+    const tablaProductos = carrito.map((producto) => [
+      producto.name,
+      producto.quantity,
+      `${producto.precio} Bs.`,
+      `${producto.quantity * producto.precio} Bs.`,
+    ]);
+  
+    doc.autoTable({
+      startY: 25,
+      headStyles: {
+        fillColor: [0, 123, 255],
+        textColor: 255,
+        halign: 'center',
+      },
+      bodyStyles: {
+        textColor: [0, 0, 0],
+        fontSize: 12,
+      },
+      columnStyles: {
+        0: { halign: 'left', cellWidth: 50 },
+        1: { halign: 'center', cellWidth: 30 },
+        2: { halign: 'center', cellWidth: 40 },
+        3: { halign: 'right', cellWidth: 40 },
+      },
+      head: [['Producto', 'Cantidad', 'Precio Unitario', 'Precio Total']],
+      body: tablaProductos,
+    });
+  
+    // Resumen adicional
+    const precioTotal = carrito.reduce(
+      (total, producto) => total + producto.quantity * producto.precio,
+      0
+    );
+    const descuentoTexto = discountCode
+      ? `Código de Descuento: ${discountCode}`
+      : 'Sin descuento aplicado';
+    const metodoPagoTexto = metodoPago
+      ? `Método de Pago: ${metodoPago} ${
+          metodoPago === 'Tarjeta' ? `(${tipoTarjeta})` : ''
+        }`
+      : 'Método de Pago no seleccionado';
+  
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(14);
+    doc.text('Resumen', 20, doc.lastAutoTable.finalY + 10);
+  
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(12);
+    doc.text(descuentoTexto, 20, doc.lastAutoTable.finalY + 20);
+    doc.text(
+      `Precio Total con Descuento: ${discountedTotal} Bs.`,
+      20,
+      doc.lastAutoTable.finalY + 30
+    );
+    doc.text(metodoPagoTexto, 20, doc.lastAutoTable.finalY + 40);
+  
+    // Pie de página estilizado
+    doc.setFont('helvetica', 'italic');
+    doc.setFontSize(10);
+    doc.setTextColor(100, 100, 100);
+    doc.text(
+      'Gracias por tu compra. ¡Esperamos verte pronto!',
+      105,
+      285,
+      { align: 'center' }
+    );
+  
+    // Descargar el archivo
+    doc.save('resumen_compra_estilizado.pdf');
+  };
+  
+
 
   const handleMetodoClick = (metodo) => {
     setMetodoPago(metodo);
   };
-
   const handleContinuar = () => {
     if (!metodoPago || !tipoTarjeta || !numeroTarjeta || !fechaVencimiento) {
       alert('Por favor, completa todos los campos antes de continuar.');
       return;
     }
+    generarPDF();
     setMostrarCalificacion(true);
   };
 
   const handleCerrar = () => {
     setMostrarModal(false);
-    onCerrar();
+    window.location.href = '/views/Transacciones.jsx'; // Reemplaza '/transacciones' con la ruta que apunta a la vista principal  
   };
-
-  const generarPDF = () => {
-    const doc = new jsPDF();
-    doc.text("Resumen de la Compra", 20, 10);
-
-    const tablaProductos = carrito.map((producto) => [
-      producto.name,
-      producto.quantity,
-      producto.precio,
-      producto.quantity * producto.precio,
-    ]);
-
-    doc.autoTable({
-      head: [['Producto', 'Cantidad', 'Precio Unitario', 'Precio Total']],
-      body: tablaProductos,
-    });
-
-    const precioTotal = carrito.reduce(
-      (total, producto) => total + producto.quantity * producto.precio,
-      0
-    );
-    doc.text(`Precio Total: ${precioTotal} Bs.`, 20, doc.previousAutoTable.finalY + 10);
-
-    doc.save('resumen_compra.pdf');
-  };
-
-  const styles = {
-    container: {
-      display: mostrarModal ? 'flex' : 'none',
-      flexDirection: 'column',
-      alignItems: 'center',
-      padding: '20px',
-      borderRadius: '15px',
-      background: 'linear-gradient(to bottom, #f5f5f5, #ddd)',
-      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-      margin: 'auto',
-      maxWidth: '400px',
-      position: 'relative',
-    },
-    closeButton: {
-      position: 'absolute',
-      top: '10px',
-      right: '10px',
-      backgroundColor: '#ff4444',
-      border: 'none',
-      color: 'white',
-      padding: '5px 10px',
-      cursor: 'pointer',
-      borderRadius: '5px',
-      fontSize: '12px',
-    },
-    metodoButton: {
-      backgroundColor: metodoPago === 'Tarjeta' ? '#ffcc00' : '#ccc',
-      border: 'none',
-      padding: '10px 20px',
-      cursor: 'pointer',
-      borderRadius: '5px',
-      fontSize: '16px',
-      minWidth: '150px',
-      textAlign: 'center',
-      marginBottom: '15px',
-    },
-    inputContainer: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '10px',
-      width: '100%',
-    },
-    input: {
-      padding: '10px',
-      borderRadius: '5px',
-      border: '1px solid #ccc',
-      fontSize: '16px',
-    },
-    btnContinuar: {
-      backgroundColor: '#ffcc00',
-      border: 'none',
-      padding: '10px 20px',
-      cursor: 'pointer',
-      borderRadius: '5px',
-      fontSize: '16px',
-      marginTop: '20px',
-    },
-    btnGenerarPDF: {
-      backgroundColor: '#007bff',
-      border: 'none',
-      padding: '10px 20px',
-      cursor: 'pointer',
-      borderRadius: '5px',
-      fontSize: '16px',
-      marginTop: '10px',
-      color: 'white',
-    },
-  };
-
   if (mostrarCalificacion) {
     return (
       <CalificarCompra
@@ -133,22 +131,13 @@ const SeleccionarMetodoPago = ({ carrito, onCerrar }) => {
   }
 
   return (
-    <div style={styles.container}>
-      <button style={styles.closeButton} onClick={handleCerrar}>
-        Cerrar
-      </button>
-      <h2 style={{ marginBottom: '15px' }}>Selecciona tu Método de Pago</h2>
-      <button
-        style={styles.metodoButton}
-        onClick={() => handleMetodoClick('Tarjeta')}
-      >
-        Tarjeta de Crédito/Débito
-      </button>
-
+    <div className='container'>
+      <button className='close-button' onClick={handleCerrar}>Cerrar</button>
+      <h2>Selecciona tu Método de Pago</h2>
+      <button className='metodo-button' onClick={() => handleMetodoClick('Tarjeta')}>Tarjeta</button>
       {metodoPago === 'Tarjeta' && (
-        <div style={styles.inputContainer}>
+        <div className='input-container'>
           <select
-            style={styles.input}
             value={tipoTarjeta}
             onChange={(e) => setTipoTarjeta(e.target.value)}
           >
@@ -161,20 +150,15 @@ const SeleccionarMetodoPago = ({ carrito, onCerrar }) => {
             placeholder="Número de Tarjeta"
             value={numeroTarjeta}
             onChange={(e) => setNumeroTarjeta(e.target.value)}
-            style={styles.input}
-            maxLength="16"
           />
           <input
             type="month"
-            placeholder="Fecha de Vencimiento"
             value={fechaVencimiento}
             onChange={(e) => setFechaVencimiento(e.target.value)}
-            style={styles.input}
           />
         </div>
       )}
-
-      <button style={styles.btnContinuar} onClick={handleContinuar}>
+      <button className='btn-continuar' onClick={handleContinuar}>
         Aceptar
       </button>
     </div>
@@ -182,13 +166,14 @@ const SeleccionarMetodoPago = ({ carrito, onCerrar }) => {
 };
 
 SeleccionarMetodoPago.propTypes = {
-  onMetodoSeleccionado: PropTypes.func.isRequired,
+  carrito: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      quantity: PropTypes.number.isRequired,
+      precio: PropTypes.number.isRequired,
+    })
+  ).isRequired,
   onCerrar: PropTypes.func.isRequired,
-  productoSeleccionado: PropTypes.shape({
-    nombre: PropTypes.string.isRequired,
-    precio: PropTypes.number.isRequired,
-    imagen: PropTypes.string,
-  }).isRequired,
 };
 
-export default SeleccionarMetodoPago;
+export default SeleccionarMetodoPago

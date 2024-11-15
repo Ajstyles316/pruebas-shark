@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import gracias from '../assets/Icon.png';
 import PropTypes from 'prop-types';
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
 import { guardarCalificacion } from '../services/firebaseFunctions';
 
 const CalificarCompra = ({ carrito, onConfirmar }) => {
@@ -12,30 +10,6 @@ const CalificarCompra = ({ carrito, onConfirmar }) => {
     setCalificacion(rating);
   };
 
-  const generarPDF = () => {
-    const doc = new jsPDF();
-    doc.text("Resumen de la Compra", 20, 10);
-
-    const tablaProductos = carrito.map((producto) => [
-      producto.name,
-      producto.quantity,
-      producto.precio,
-      producto.quantity * producto.precio,
-    ]);
-
-    doc.autoTable({
-      head: [['Producto', 'Cantidad', 'Precio Unitario', 'Precio Total']],
-      body: tablaProductos,
-    });
-
-    const precioTotal = carrito.reduce(
-      (total, producto) => total + producto.quantity * producto.precio,
-      0
-    );
-    doc.text(`Precio Total: ${precioTotal} Bs.`, 20, doc.previousAutoTable.finalY + 10);
-
-    doc.save('resumen_compra.pdf');
-  };
 
   const handleConfirmar = async () => {
     if (calificacion === 0) {
@@ -44,7 +18,6 @@ const CalificarCompra = ({ carrito, onConfirmar }) => {
     }
 
     await guardarCalificacion(calificacion);
-    generarPDF();
     onConfirmar(); 
   };
 
